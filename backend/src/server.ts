@@ -19,10 +19,10 @@ const startServer = async () => {
     app.use("/api/auth", authRoutes);
 
     app.listen(PORT, () => {
-      console.log(`App listening on port: ${PORT}`);
+      console.log(`✅ App listening on port: ${PORT}`);
     });
-  } catch (error) {
-    console.log("Error ");
+  } catch (error: unknown) {
+    console.error("❌ Error starting server: ", error);
   }
 };
 
