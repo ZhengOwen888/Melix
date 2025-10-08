@@ -13,7 +13,7 @@ const startServer = async (): Promise<void> => {
     await connectDB(); // connect to database
 
     const app: Application = express();
-    const PORT: number = parseInt(process.env.PORT || "5000", 10);
+    const PORT = process.env.PORT || 5000;
 
     app.use(express.json()); // use to parse json
     app.use(cookieParser());
