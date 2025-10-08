@@ -6,7 +6,7 @@ dotenv.config({ path: envPath });
 import express, { type Application } from "express";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
-import { connectDB, disconnectDB } from "./db/connectdb.js";
+import { connectDB, disconnectDB } from "./db/db.js";
 
 const startServer = async (): Promise<void> => {
   try {
@@ -50,6 +50,7 @@ const startServer = async (): Promise<void> => {
     } else {
       console.error("❌ Error starting server: ", error);
     }
+    process.exit(0);
   }
 };
 
