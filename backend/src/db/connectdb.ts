@@ -37,7 +37,7 @@ export const connectDB = async (): Promise<void> => {
 };
 
 // Gracefully close MongoDB connection on app termination
-const gracefulShutdown = async (): Promise<void> => {
+export const disconnectDB = async (): Promise<void> => {
   try {
     await mongoose.connection.close(); // close default connection
     console.log("⚪ MongoDB connection closed");
@@ -51,8 +51,3 @@ const gracefulShutdown = async (): Promise<void> => {
     process.exit(1); // exit process on failure
   }
 };
-
-// Handle termination signals and uncaught exceptions
-process.once("SIGINT", () => gracefulShutdown()); // Ctrl + C
-process.once("SIGTERM", () => gracefulShutdown()); // kill pid
-process.once("uncaughtException", () => gracefulShutdown());
