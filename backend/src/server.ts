@@ -29,6 +29,7 @@ const startServer = async (): Promise<void> => {
     const gracefulShutdown = async (): Promise<void> => {
       console.log("🟡 Shutting down server ...");
       try {
+        // disconnect database
         server.close(async (): Promise<void> => await disconnectDB());
       } catch (error) {
         if (error instanceof Error) {
