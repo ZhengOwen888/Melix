@@ -22,7 +22,10 @@ const userSchema = new mongoose.Schema(
       minlength: 12,
       maxlength: 20,
     },
-    profileImage: String,
+    profileImage: {
+      data: Buffer,
+      contentType: String,
+    },
     bio: {
       type: String,
       maxlength: 50,
@@ -46,6 +49,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.index({ username: 1, email: 1 });
+userSchema.index({ username: 1 });
+userSchema.index({ email: 1 });
 
 export const User = mongoose.model("User", userSchema);

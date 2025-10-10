@@ -1,7 +1,8 @@
 // Choose the enviroment base on NODE_ENV
 import dotenv from "dotenv";
-const envPath = `.env.${process.env.NODE_ENV || "development"}`;
-dotenv.config({ path: envPath });
+// const envPath = `.env.${process.env.NODE_ENV || "development"}`;
+// dotenv.config({ path: envPath });
+dotenv.config();
 
 import express, { type Application } from "express";
 import cookieParser from "cookie-parser";
