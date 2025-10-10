@@ -3,11 +3,8 @@ import mongoose from "mongoose";
 // Connect to MongoDB
 export const connectDB = async (): Promise<void> => {
   try {
-    // Connect to the database
-    const conn = await mongoose.connect(process.env.MONGO_URI!);
-
     // Remove and clear event listeners
-    mongoose.connection.removeAllListeners("connnected");
+    mongoose.connection.removeAllListeners("connected");
     mongoose.connection.removeAllListeners("disconnected");
     mongoose.connection.removeAllListeners("reconnected");
     mongoose.connection.removeAllListeners("close");
@@ -25,6 +22,20 @@ export const connectDB = async (): Promise<void> => {
     mongoose.connection.on("close", () => {
       console.log("⚪ MongoDB connection closed");
     });
+
+    // MongoDB environment variables
+    const user: string = encodeURIComponent(process.env.MONGO_USER!);
+    const pass: string = encodeURIComponent(process.env.MONGO_PASS!);
+    const dbName: string = process.env.MONGO_DBNAME!;
+    const appName: string = process.env.MONGO_APPNAME!;
+    const clusterUrl: string = process.env.MONGO_CLUSTER_URL!;
+
+    const mongoUri: string =
+      `mongodb+srv://${user}:${pass}@${clusterUrl}/${dbName}` +
+      `?retryWrites=true&w=majority&appName=${appName}`;
+
+    // Connect to the database
+    const conn = await mongoose.connect(mongoUri);
   } catch (error: unknown) {
     // Handle connection errors
     if (error instanceof Error) {
@@ -41,7 +52,6 @@ export const connectDB = async (): Promise<void> => {
 export const disconnectDB = async (): Promise<void> => {
   try {
     await mongoose.connection.close(); // close default connection
-    console.log("⚪ MongoDB connection closed");
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("❌ Error while MongoDB disconnection: ", error.message);
