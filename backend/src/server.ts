@@ -10,6 +10,7 @@ import express, { type Application } from "express";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import { connectDB, disconnectDB } from "./db/db.js";
+import { logError } from "./utils/error.utils.js";
 
 const startServer = async (): Promise<void> => {
   try {
@@ -34,12 +35,8 @@ const startServer = async (): Promise<void> => {
       try {
         // disconnect database
         server.close(async (): Promise<void> => await disconnectDB());
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error("❌ Error shutting down server: ", error.message);
-        } else {
-          console.error("❌ Error shutting down server: ", error);
-        }
+      } catch (error: unknown) {
+        logError("❌ Server - Error shutting down server", error);
         process.exit(0);
       }
     };
@@ -49,11 +46,7 @@ const startServer = async (): Promise<void> => {
     process.once("SIGTERM", () => gracefulShutdown()); // kill pid
     process.once("uncaughtException", () => gracefulShutdown());
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("❌ Error starting server: ", error.message);
-    } else {
-      console.error("❌ Error starting server: ", error);
-    }
+    logError("❌ Server - Error starting server", error);
     process.exit(1);
   }
 };

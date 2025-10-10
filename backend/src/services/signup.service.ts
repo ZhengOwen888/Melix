@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import { hashPassword } from "./password.service.js";
 
 interface SignupInput {
   email: string;
@@ -23,4 +24,6 @@ export const signupService = async ({
   if (userExistByUsername) {
     throw new Error("SignUp - Username already Taken");
   }
+
+  const hashPw = await hashPassword(password);
 };

@@ -1,4 +1,5 @@
 import bcryptjs from "bcryptjs";
+import { throwError } from "../utils/error.utils.js";
 
 export const hashPassword = async (password: string): Promise<string> => {
   const saltRounds = 10;
@@ -7,11 +8,7 @@ export const hashPassword = async (password: string): Promise<string> => {
     const hash: string = await bcryptjs.hash(password, salt);
     return hash;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`❌ Password - Error hashing password: ${error.message}`);
-    } else {
-      throw new Error(`❌ Password - Error hashing password`);
-    }
+    return throwError("❌ Password - Error hashing password", error);
   }
 };
 
@@ -23,12 +20,6 @@ export const isPasswordMatch = async (
     const isMatch = await bcryptjs.compare(password, hash);
     return isMatch;
   } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(
-        `❌ Password - Error matching password: ${error.message}`
-      );
-    } else {
-      throw new Error(`❌ Password - Error matching password`);
-    }
+    return throwError("❌ Password - Error matching password", error);
   }
 };

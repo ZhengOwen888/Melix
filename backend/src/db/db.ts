@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { throwError } from "../utils/error.utils.js";
 
 // Connect to MongoDB
 export const connectDB = async (): Promise<void> => {
@@ -38,13 +39,7 @@ export const connectDB = async (): Promise<void> => {
     const conn = await mongoose.connect(mongoUri);
   } catch (error: unknown) {
     // Handle connection errors
-    if (error instanceof Error) {
-      console.error("❌ Error while MongoDB connection: ", error.message);
-      throw new Error(`❌ Error while MongoDB connection: ${error.message}`);
-    } else {
-      console.error("❌ Unknown Error while MongoDB connection: ", error);
-      throw new Error("❌ Unknown Error while MongoDB connection");
-    }
+    return throwError("❌ MongoDB - Error while MongoDB connection", error);
   }
 };
 
@@ -53,12 +48,6 @@ export const disconnectDB = async (): Promise<void> => {
   try {
     await mongoose.connection.close(); // close default connection
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("❌ Error while MongoDB disconnection: ", error.message);
-      throw new Error(`❌ Error while MongoDB disconnection: ${error.message}`);
-    } else {
-      console.error("❌ Unknown Error while MongoDB disconnection: ", error);
-      throw new Error("❌ Unknown Error while MongoDB disconnection");
-    }
+    return throwError("❌ MongoDB - Error while MongoDB disconnection", error);
   }
 };
