@@ -8,7 +8,7 @@ export const connectDB = async (): Promise<void> => {
 
     // Remove and clear event listeners
     mongoose.connection.removeAllListeners("connnected");
-    mongoose.connection.removeAllListeners("diconnected");
+    mongoose.connection.removeAllListeners("disconnected");
     mongoose.connection.removeAllListeners("reconnected");
     mongoose.connection.removeAllListeners("close");
 

@@ -1,5 +1,7 @@
 // Choose the enviroment base on NODE_ENV
 import dotenv from "dotenv";
+// !!! NOTE TO SELF !!! - this is for scaling purposes, use different
+//                        NODE ENVIROMENT for different phases
 // const envPath = `.env.${process.env.NODE_ENV || "development"}`;
 // dotenv.config({ path: envPath });
 dotenv.config();

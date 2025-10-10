@@ -7,14 +7,17 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      minlength: 5,
-      maxlength: 20,
+      match: [/^[a-zA-Z0-9_]{5,20}$/, "Invalid Username"],
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Invalid Email",
+      ],
     },
     password: {
       type: String,
@@ -42,14 +45,28 @@ const userSchema = new mongoose.Schema(
     },
     // optional fields, added when defined
     verificationToken: String,
-    verificationExpiresAt: Date,
+    verificationExpiresAt: {
+      type: Date,
+      default: new Date(Date.now() + 3600 * 1000), // 1 hour
+    },
     forgotPasswordToken: String,
-    forgotPasswordExpiresAt: Date,
+    forgotPasswordExpiresAt: {
+      type: Date,
+      default: new Date(Date.now() + 3600 * 1000), // 1 hour
+    },
   },
   { timestamps: true }
 );
 
+// Speed up query searching for user with indexing
 userSchema.index({ username: 1 });
 userSchema.index({ email: 1 });
+
+// Time-To-Live(TTL) indexes - Delete Data if user not verified
+// !!! NOTE TO SELF !!!
+// Dont forget to set the Verification expiration date to undefined after
+// user verifies, otherwise verified user will get deleted.
+// ANOTHER OPTION - add clean up function to delete unverified users
+userSchema.index({ verificationExpiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const User = mongoose.model("User", userSchema);
