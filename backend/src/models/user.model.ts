@@ -50,10 +50,7 @@ const userSchema = new mongoose.Schema(
       default: new Date(Date.now() + 3600 * 1000), // 1 hour
     },
     forgotPasswordToken: String,
-    forgotPasswordExpiresAt: {
-      type: Date,
-      default: new Date(Date.now() + 3600 * 1000), // 1 hour
-    },
+    forgotPasswordExpiresAt: Date,
   },
   { timestamps: true }
 );

@@ -22,6 +22,7 @@ const startServer = async (): Promise<void> => {
     app.use(express.json()); // use to parse json
     app.use(cookieParser());
 
+    // Routes
     app.use("/api/auth", authRoutes);
 
     const server = app.listen(PORT, (): void => {
