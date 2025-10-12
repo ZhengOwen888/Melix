@@ -1,7 +1,13 @@
+// Utilities
+import { generateDigitToken } from "../utils/generate_token.js";
 import { throwError } from "../utils/error.utils.js";
+
+// Models
 import { User } from "../models/user.model.js";
-import bcryptjs from "bcryptjs";
+
+// Packages
 import jwt, { type JwtPayload } from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
 
 /******************
  *   Password    *
@@ -67,7 +73,7 @@ export const signupService = async ({
 }: SignupInput): Promise<void> => {
   try {
     if (!email || !username || !password) {
-      throw new Error("❌ Auth Service (Signup) - Missing required fields");
+      return throwError("❌ Auth Service (Signup) - Missing required fields");
     }
     const userExistByEmail = await User.findOne({ email });
     if (userExistByEmail) {
@@ -80,9 +86,7 @@ export const signupService = async ({
     }
 
     const hashPw = await hashPassword(password);
-    const verificationToken = String(
-      Math.floor(100000 + Math.random() * 900000)
-    );
+    const verificationToken = generateDigitToken();
 
     const newUser = await User.create({
       email: email,

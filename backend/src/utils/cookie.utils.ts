@@ -21,6 +21,6 @@ export const setCookie = (
   res.cookie(cookieName, cookieValue, cookieOptions[cookieName]);
 };
 
-export const cookieCookie = (res: Response, cookieName: CookieType): void => {
+export const clearCookie = (res: Response, cookieName: CookieType): void => {
   res.clearCookie(cookieName);
 };
