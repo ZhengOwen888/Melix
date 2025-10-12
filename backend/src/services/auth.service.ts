@@ -5,9 +5,12 @@ import { throwError } from "../utils/error.utils.js";
 // Models
 import { User } from "../models/user.model.js";
 
-// Packages
-import jwt, { type JwtPayload } from "jsonwebtoken";
+// External Packages
+import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+
+// Types
+import type { JwtPayload } from "jsonwebtoken";
 
 /******************
  *   Password    *

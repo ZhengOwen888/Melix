@@ -1,4 +1,4 @@
-import { type Response, type CookieOptions } from "express";
+import type { Response, CookieOptions } from "express";
 
 export enum CookieType {
   AUTH_TOKEN = "AUTH_TOKEN",

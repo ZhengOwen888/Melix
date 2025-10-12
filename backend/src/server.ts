@@ -6,10 +6,20 @@ import dotenv from "dotenv";
 // dotenv.config({ path: envPath });
 dotenv.config();
 
-import express, { type Application } from "express";
+// External Packages
+import express from "express";
 import cookieParser from "cookie-parser";
+
+// Types
+import type { Application } from "express";
+
+// Routes
 import authRoutes from "./routes/auth.route.js";
+
+// Database
 import { connectDB, disconnectDB } from "./db/db.js";
+
+// Utilities
 import { logError } from "./utils/error.utils.js";
 
 const startServer = async (): Promise<void> => {
