@@ -8,7 +8,6 @@ import { User } from "../models/user.model.js";
 // External Packages
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-import type { AnyAaaaRecord } from "dns";
 
 /******************
  *   Password    *
