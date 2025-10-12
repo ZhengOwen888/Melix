@@ -8,9 +8,7 @@ import { User } from "../models/user.model.js";
 // External Packages
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
-
-// Types
-import type { JwtPayload } from "jsonwebtoken";
+import type { AnyAaaaRecord } from "dns";
 
 /******************
  *   Password    *
@@ -44,19 +42,27 @@ export const isPasswordMatch = async (
  ***************/
 
 export const generateJwtToken = (
-  payload: object,
+  payload: Record<string, any>,
   secretKey: string
 ): string => {
-  const token: string = jwt.sign(payload, secretKey, { expiresIn: "1h" });
-  return token;
+  try {
+    const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
+    return token;
+  } catch (error) {
+    return throwError("❌ Auth Service (JWT) - Error signing JWT", error);
+  }
 };
 
 export const verifyJwtToken = (
   token: string,
   secretKey: string
-): string | JwtPayload => {
-  const decoded: string | JwtPayload = jwt.verify(token, secretKey);
-  return decoded;
+): Record<string, any> => {
+  try {
+    const decoded = jwt.verify(token, secretKey) as Record<string, any>;
+    return decoded;
+  } catch (error) {
+    return throwError("❌ Auth Service (JWT) - Error verifying JWT", error);
+  }
 };
 
 /*****************
@@ -99,6 +105,8 @@ export const signupService = async ({
     });
 
     await newUser.save();
+
+    // send verification email -- needed, implement in email service latr
   } catch (error: unknown) {
     return throwError("❌ Auth Service (Signup) - Error signing up", error);
   }
