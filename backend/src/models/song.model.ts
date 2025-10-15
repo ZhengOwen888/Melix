@@ -25,11 +25,12 @@ const songSchema = new mongoose.Schema(
     },
     audioSize: {
       type: Number,
-      max: 5 * 1024 * 1024, // max 5MB
+      max: 5 * 1024 * 1024, // 5MB
       required: true,
     },
     audio: {
-      type: Buffer,
+      data: Buffer,
+      contentType: String,
       required: true,
     },
     lyrics: {
@@ -37,8 +38,13 @@ const songSchema = new mongoose.Schema(
       required: true,
     },
     // optional
+    coverArtSize: {
+      type: Number,
+      max: 1024 * 1024, // 1MB
+    },
     coverArt: {
-      type: Buffer,
+      data: Buffer,
+      contentType: String,
     },
   },
   { timestamps: true }

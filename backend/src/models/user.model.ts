@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       minlength: 12,
       maxlength: 20,
     },
+    profileImageSize: {
+      type: Number,
+      max: 1024 * 1024, // 1MB
+    },
     profileImage: {
       data: Buffer,
       contentType: String,

@@ -14,7 +14,7 @@ import bcryptjs from "bcryptjs";
  ******************/
 
 export const hashPassword = async (password: string): Promise<string> => {
-  const saltRounds = 10;
+  const saltRounds = 10; // good enough salt rounds, can be more but slow, maybe 20???
   try {
     const salt: string = await bcryptjs.genSalt(saltRounds);
     const hash: string = await bcryptjs.hash(password, salt);
@@ -105,8 +105,13 @@ export const signupService = async ({
 
     await newUser.save();
 
-    // send verification email -- needed, implement in email service latr
+    // send verification email to newly signed up user
+    await sendVerificationEmail(newUser.email, newUser.verificationToken);
   } catch (error: unknown) {
     return throwError("❌ Auth Service (Signup) - Error signing up", error);
   }
 };
+
+export const loginSerive = async () => {};
+
+export const logotService = async () => {};
