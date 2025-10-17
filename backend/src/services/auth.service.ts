@@ -2,6 +2,9 @@
 import { generateDigitToken } from "../utils/generate_token.js";
 import { throwError } from "../utils/error.utils.js";
 
+// Services
+// import sendVerificationEmail from "./email.service.js";
+
 // Models
 import { User } from "../models/user.model.js";
 
